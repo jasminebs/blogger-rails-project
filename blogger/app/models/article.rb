@@ -2,6 +2,11 @@ class Article < ActiveRecord::Base
 	has_many :comments
 	has_many :taggings
 	has_many :tags, through: :taggings
+	has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" },
+	:default_url => "/system/avatars/:style/missing.png",
+    :url  => "/system/:attachment/:id/:style_:filename",
+    :path => ":rails_root/public/system/:attachment/:id/:style_:filename"
+	validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png"]
 	def tag_list
 		tags.join(", ")
 	end
